@@ -21,7 +21,7 @@ pipeline {
         }
         stage('Security Check') {
             steps {
-		dependencyCheck additionalArguments: '--scan=. --format=html', odcInstallation: 'OWASP-Dependency-Check'
+		dependencyCheck additionalArguments: '--scan=. --format=HTML', odcInstallation: 'OWASP-Dependency-Check'
                 echo 'All security checks done'
 		echo "Job Name Is - ${jobName}"
             }
