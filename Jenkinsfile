@@ -35,6 +35,7 @@ pipeline {
          stage('Deploy') {
             steps {
                 echo 'Deployment done'
+		sh 'java -jar target/spring-boot-rest-2-0.0.1-SNAPSHOT.jar &'
             }
         }
          stage('Post Deployment Check') {
