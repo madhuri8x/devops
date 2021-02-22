@@ -22,7 +22,7 @@ pipeline {
         stage('Security Check') {
             steps {
                 echo 'All security checks done'
-		echo 'Job Name Is - ${jobName}'
+		echo "Job Name Is - ${jobName}"
             }
         }
         stage('Build Push App') {
