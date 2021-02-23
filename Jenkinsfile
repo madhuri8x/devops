@@ -1,17 +1,23 @@
 pipeline {
     agent any
-    tools { 
-            maven 'maven_3.6.3' 
+    tools {
+        maven 'maven_3.6.3'
     }
- 
+
     stages {
+
+        stage('Initialize') {
+            steps {
+                echo "PATH = ${PATH}"
+                echo "M2_HOME = ${M2_HOME}"
+            }
+        }
+
         stage('Checkout') {
-            steps {        
-            checkout([$class: 'GitSCM', branches: [[name: 'main']], extensions: [[$class: 'CheckoutOption', timeout: 5], [$class: 'CloneOption', noTags: false, reference: '', shallow: false, timeout: 5]], userRemoteConfigs: [[url: 'https://github.com/j-huidrom/devops.git']]])
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: 'main']], extensions: [[$class: 'CheckoutOption', timeout: 5], [$class: 'CloneOption', noTags: false, reference: '', shallow: false, timeout: 5]], userRemoteConfigs: [[url: 'https://github.com/j-huidrom/devops.git']]])
 
- 
-
-             echo 'Checkout source code from git'
+                echo 'Checkout source code from git'
             }
         }
         stage('Quality Check') {
@@ -21,24 +27,30 @@ pipeline {
         }
         stage('Security Check') {
             steps {
-		dependencyCheck additionalArguments: '--scan=. --format=HTML', odcInstallation: 'OWASP-Dependency-Check'
+                dependencyCheck additionalArguments: '--scan=. --format=HTML', odcInstallation: 'OWASP-Dependency-Check'
                 echo 'All security checks done'
-		echo "Job Name Is - ${jobName}"
             }
         }
         stage('Build Push App') {
             steps {
-               sh "mvn clean install"        
-        }
-        }    
-        
-         stage('Deploy') {
+                sh "mvn clean install"
+            }
+        }   
+        stage('Kill previous deploy ment') {
             steps {
-                echo 'Deployment done'
-		sh 'nohup java -jar ./target/spring-boot-rest-2-0.0.1-SNAPSHOT.jar &'
+                catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
+                    sh "fuser -k 8083/tcp"
+                }
             }
         }
-         stage('Post Deployment Check') {
+
+        stage('Deploy') {
+            steps {
+                sh "JENKINS_NODE_COOKIE=dontKillMe nohup java -jar ./target/spring-boot-rest-2-0.0.1-SNAPSHOT.jar &"
+                echo 'Deployment done'
+            }
+        }
+        stage('Post Deployment Check') {
             steps {
                 echo 'All deployment check done'
             }
