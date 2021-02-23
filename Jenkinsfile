@@ -53,7 +53,7 @@ pipeline {
         stage('Post Deployment Check') {
             steps {
                 echo 'All deployment check done'
-		sh 'newman run Student_Api.postman_collection.json -r html,cli'
+		sh '/usr/local/bin/newman run Student_Api.postman_collection.json -r html,cli'
             }
         }
     }
