@@ -20,15 +20,17 @@ pipeline {
                 echo 'Checkout source code from git'
             }
         }
-        stage('Quality Check') {
+        stage('Quality Check and Security Check') {
             steps {
-                echo 'QA verified'
-            }
-        }
-        stage('Security Check') {
-            steps {
-                dependencyCheck additionalArguments: '--scan=. --format=HTML', odcInstallation: 'OWASP-Dependency-Check'
-                echo 'All security checks done'
+		parallel(
+		    'Quality Check':{
+	                echo 'QA verified'
+		    },
+		    'Security Check':{
+			 dependencyCheck additionalArguments: '--scan=. --format=HTML', odcInstallation: 'OWASP-Dependency-Check'
+	                 echo 'All security checks done'
+		    }
+		)
             }
         }
         stage('Build Push App') {
