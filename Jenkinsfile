@@ -61,20 +61,20 @@ pipeline {
                 echo 'All deployment check done'
 		sh '/usr/local/bin/newman run Student_Api.postman_collection.json -r html,cli'
             }
+        post {
+            always {
+          mail to: 'madhuri.agrawal@fisglobal.com',
+          subject: "Status of pipeline: ${currentBuild.fullDisplayName}",
+          body: "${env.BUILD_URL} has result ${currentBuild.result}"
+                }
+        }
+
         }
 	stage('Notification') {
 	    steps {
 		echo 'Send Test Results Email and Teams Notificataion'
 		emailext attachLog: true, body: 'Hello', subject: 'Test Results', to: 'madhuri.agrawal@fisglobal.com'
 		}
-        post {
-	    always {
-	  mail to: 'madhuri.agrawal@fisglobal.com',
-          subject: "Status of pipeline: ${currentBuild.fullDisplayName}",
-          body: "${env.BUILD_URL} has result ${currentBuild.result}"
-		}
-      	}
-
    	}
     }
 }
