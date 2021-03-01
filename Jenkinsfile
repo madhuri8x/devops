@@ -67,11 +67,10 @@ pipeline {
 		echo 'Send Test Results Email and Teams Notificataion'
 		emailext attachLog: true, body: 'Hello', subject: 'Test Results', to: 'madhuri.agrawal@fisglobal.com'
 		}
-   	}
-	post {
-	always {
-		emailext mimeType: 'text/html',
-		subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
+        post {
+        always {
+                emailext mimeType: 'text/html',
+                subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
 body: "test",
 to: "madhuri.agrawal@fisglobal.com",
 attachLog: true,
@@ -79,5 +78,7 @@ compressLog: false,
 recipientProviders: [[$class: 'CulpritsRecipientProvider'], [$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
 }
 }
+
+   	}
     }
 }
