@@ -23,6 +23,10 @@ pipeline {
         stage('Quality Check and Security Check') {
             steps {
 		parallel(
+		    'Unit Test':{
+			echo 'Junit test in progress'
+                        sh "mvn clean test"
+		    },
 		    'Quality Check':{
 	                echo 'QA verified'
 		    },
