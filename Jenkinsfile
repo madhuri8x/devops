@@ -72,14 +72,14 @@ pipeline {
 always {
 emailext mimeType: 'text/html',
 subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
-body: "
+body: """
 <html><body>
 <div>Job: ${env.JOB_NAME}</div>
 <div>Build ID: ${env.BUILD_NUMBER}</div>
 <div>Status: ${currentBuild.currentResult}</div>
 <div>More info at: ${env.BUILD_URL}</div>
 </body></html>
-",
+""",
 to: "madhuri.agrawal@fisglobal.com",
 attachLog: true,
 compressLog: false,
