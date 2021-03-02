@@ -1,0 +1,8 @@
+/home/e5618809/devops/src/main/java/com/bhaiti/kela/beans/StudentRegistration.java
+/home/e5618809/devops/src/main/java/com/bhaiti/kela/server/main/SpringBootRest2Application.java
+/home/e5618809/devops/src/main/java/com/bhaiti/kela/beans/StudentRegistrationReply.java
+/home/e5618809/devops/src/main/java/com/bhaiti/kela/controllers/StudentRegistrationController.java
+/home/e5618809/devops/src/main/java/com/bhaiti/kela/controllers/StudentUpdateController.java
+/home/e5618809/devops/src/main/java/com/bhaiti/kela/controllers/StudentDeleteController.java
+/home/e5618809/devops/src/main/java/com/bhaiti/kela/beans/Student.java
+/home/e5618809/devops/src/main/java/com/bhaiti/kela/controllers/StudentRetrieveController.java
